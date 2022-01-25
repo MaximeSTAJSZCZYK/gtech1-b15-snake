@@ -8,6 +8,7 @@ SDL_Window* window;
 SDL_Renderer* renderer;//Déclaration du renderer
 int posX = 500;
 int posY = 500;
+char move;
 
 int  init( void );
 void update( void );
@@ -43,6 +44,20 @@ int main(int argc, char *argv[])
 			}
 		}
 update();
+switch (move){
+	case 'U': 
+	posY--;
+	break;
+	case 'D': 
+	posY++;
+	break;
+	case 'L': 
+	posX--;
+	break;
+	case 'R': 
+	posX++;
+	break;
+}
 SDL_SetRenderDrawColor(renderer,255,255,255,255); //Couleur blanche
 SDL_Rect rectangle = {posX,posY,25,25};
 SDL_RenderFillRect(renderer, &rectangle);
@@ -111,15 +126,15 @@ void update( void )
 
 	// Player input.
 	if ( keystates[SDL_SCANCODE_UP] ) {	
-	posY--;
+	move = 'U';	
 	}
 	if ( keystates[SDL_SCANCODE_DOWN] ) {
-	posY++;
+	move = 'D';
 	}
 		if ( keystates[SDL_SCANCODE_LEFT] ) {
-	posX--;	
+	move = 'L';
 	}
 		if ( keystates[SDL_SCANCODE_RIGHT] ) {
-	posX++;	
+	move = 'R';
 	}
 }
