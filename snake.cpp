@@ -6,30 +6,58 @@
 
 SDL_Window* window;
 SDL_Renderer* renderer;//Déclaration du renderer
+int posX = 500;
+int posY = 500;
 
 int  init( void );
+void update( void );
 
 int main(int argc, char *argv[])
 {
 	int i;
-
+	const Uint8* keystates = SDL_GetKeyboardState( 0 );
 
 	int initCode = init();
 	if ( initCode )
 		return initCode;
+	bool closeRequest = false;
+	SDL_Event e;
 
-    
-for (i=0;i<500;i++)
-{
+	Uint32 frameStart, frameTime, frameDelay = 20;
+	while ( !closeRequest )
+	{
+		frameStart = SDL_GetTicks();
+
+		// Poll window events.
+		while ( SDL_PollEvent(&e) != 0 )
+		{
+			if ( e.type == SDL_QUIT ) {
+				closeRequest = true;
+			}
+			else if ( e.type == SDL_KEYDOWN ) {
+				switch ( e.key.keysym.sym ) {
+				case SDLK_ESCAPE:
+					closeRequest = true;
+					break;
+				}
+			}
+		}
+update();
 SDL_SetRenderDrawColor(renderer,255,255,255,255); //Couleur blanche
-SDL_Rect rectangle = {i,i,25,25};
+SDL_Rect rectangle = {posX,posY,25,25};
 SDL_RenderFillRect(renderer, &rectangle);
-SDL_Delay(30);
+SDL_Delay(5);
 SDL_RenderPresent(renderer);
-SDL_Delay(30);
+SDL_Delay(5);
 SDL_SetRenderDrawColor(renderer,0,0,0,255);
 SDL_RenderClear(renderer);
-}
+
+	}
+   
+
+
+
+
 
 
 SDL_Delay(3000);//pause de 3 secondes
@@ -77,32 +105,21 @@ int init( void )
 	return 0;
 }
 
-/*void update( void )
+void update( void )
 {
 	const Uint8* keystates = SDL_GetKeyboardState( 0 );
 
 	// Player input.
-	if ( keystates[SDL_SCANCODE_UP] ) {
-		player.posY -= 10;
-		if ( player.posY <= 0 )
-			player.posY = 0;
+	if ( keystates[SDL_SCANCODE_UP] ) {	
+	posY--;
 	}
 	if ( keystates[SDL_SCANCODE_DOWN] ) {
-		player.posY += 10;
-		if ( player.posY >= SCREEN_HEIGHT - 60 )
-			player.posY = SCREEN_HEIGHT - 60;
+	posY++;
 	}
 		if ( keystates[SDL_SCANCODE_LEFT] ) {
-		player.posY += 10;
-		if ( player.posY >= SCREEN_HEIGHT - 60 )
-			player.posY = SCREEN_HEIGHT - 60;
+	posX--;	
 	}
 		if ( keystates[SDL_SCANCODE_RIGHT] ) {
-		player.posY += 10;
-		if ( player.posY >= SCREEN_HEIGHT - 60 )
-			player.posY = SCREEN_HEIGHT - 60;
+	posX++;	
 	}
-
-	// Ball movement.
-	ball_step_pos( &ball, &player );
-}*/
+}
