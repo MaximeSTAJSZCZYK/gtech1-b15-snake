@@ -1,21 +1,25 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
-#include "snake.h"
+#include "snake.hpp"
+#include "fruit.hpp"
 
 SDL_Window* window;
 SDL_Renderer* renderer;//Déclaration du renderer
-int posX = 500;
-int posY = 500;
-char move;
+
+
 
 int  init( void );
-void update( void );
+bool check_collision( SDL_Rect &A, SDL_Rect &B );
+void render(void);
+Head head(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+Fruit fruit(0,0);
 
-int main(int argc, char *argv[])
+int main()
 {
-	int i;
+
 	const Uint8* keystates = SDL_GetKeyboardState( 0 );
 
 	int initCode = init();
@@ -24,7 +28,7 @@ int main(int argc, char *argv[])
 	bool closeRequest = false;
 	SDL_Event e;
 
-	Uint32 frameStart, frameTime, frameDelay = 20;
+	Uint32 frameStart, frameTime, frameDelay = 60;
 	while ( !closeRequest )
 	{
 		frameStart = SDL_GetTicks();
@@ -43,40 +47,21 @@ int main(int argc, char *argv[])
 				}
 			}
 		}
-update();
-switch (move){
-	case 'U': 
-	posY--;
-	break;
-	case 'D': 
-	posY++;
-	break;
-	case 'L': 
-	posX--;
-	break;
-	case 'R': 
-	posX++;
-	break;
+if (fruit.fruitX == 0 && fruit.fruitY == 0)
+{
+srand (time(NULL));
+fruit.fruitX = rand() % SCREEN_WIDTH + 1;
+fruit.fruitY = rand() % SCREEN_HEIGHT + 1;
+}		
+if (check_collision(head.rect, fruit.fruit))
+{
+	fruit.fruitX=0;
+	fruit.fruitY=0;
 }
-SDL_SetRenderDrawColor(renderer,255,255,255,255); //Couleur blanche
-SDL_Rect rectangle = {posX,posY,25,25};
-SDL_RenderFillRect(renderer, &rectangle);
-SDL_Delay(5);
-SDL_RenderPresent(renderer);
-SDL_Delay(5);
-SDL_SetRenderDrawColor(renderer,0,0,0,255);
-SDL_RenderClear(renderer);
-
-	}
-   
-
-
-
-
-
-
-SDL_Delay(3000);//pause de 3 secondes
-
+head.update();
+head.moving();
+render();
+}
 // Destruction du renderer et de la fenêtre :
 SDL_DestroyRenderer(renderer); 
 SDL_DestroyWindow(window);
@@ -97,7 +82,7 @@ int init( void )
 	window = SDL_CreateWindow(
 		"Snake.",
 		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-		1000, 1000,
+		SCREEN_WIDTH, SCREEN_HEIGHT,
 		SDL_WINDOW_SHOWN );
 
 	if ( !window )
@@ -108,33 +93,65 @@ int init( void )
 
 	// Create renderer for window.
 	renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
-
-	/*int centerY = (SCREEN_HEIGHT - PLAYER_HEIGHT) / 2;
-	player1.posY = centerY;
-	player2.posY = centerY;
-	player1.score = 0;
-	player2.score = 0;
-
-	ball_init( &ball, 3, 3 );*/
-
 	return 0;
 }
 
-void update( void )
-{
-	const Uint8* keystates = SDL_GetKeyboardState( 0 );
 
-	// Player input.
-	if ( keystates[SDL_SCANCODE_UP] ) {	
-	move = 'U';	
-	}
-	if ( keystates[SDL_SCANCODE_DOWN] ) {
-	move = 'D';
-	}
-		if ( keystates[SDL_SCANCODE_LEFT] ) {
-	move = 'L';
-	}
-		if ( keystates[SDL_SCANCODE_RIGHT] ) {
-	move = 'R';
-	}
+
+void render ()
+{
+SDL_SetRenderDrawColor(renderer,255,255,255,255); //Couleur blanche
+fruit.makerectfruit();
+head.makerect();
+SDL_RenderFillRect(renderer, &head.rect);
+SDL_RenderFillRect(renderer, &fruit.fruit);
+SDL_Delay(5);
+SDL_RenderPresent(renderer);
+SDL_Delay(5);
+SDL_SetRenderDrawColor(renderer,0,0,0,255);
+SDL_RenderClear(renderer);
+}
+
+bool check_collision( SDL_Rect &A, SDL_Rect &B )
+{
+    //Les cotes des rectangles
+    int leftA, leftB;
+    int rightA, rightB;
+    int topA, topB;
+    int bottomA, bottomB;
+ 
+    //Calcul les cotes du rectangle A
+    leftA = A.x;
+    rightA = A.x + A.w;
+    topA = A.y;
+    bottomA = A.y + A.h;
+ 
+    //Calcul les cotes du rectangle B
+    leftB = B.x;
+    rightB = B.x + B.w;
+    topB = B.y;
+    bottomB = B.y + B.h;
+	    //Tests de collision
+    if( bottomA <= topB )
+    {
+        return false;
+    }
+ 
+    if( topA >= bottomB )
+    {
+        return false;
+    }
+ 
+    if( rightA <= leftB )
+    {
+        return false;
+    }
+ 
+    if( leftA >= rightB )
+    {
+        return false;
+    }
+ 
+    //Si conditions collision detectee
+    return true;
 }
