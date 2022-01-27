@@ -47,17 +47,18 @@ int main()
 				}
 			}
 		}
-if (fruit.fruitX == 0 && fruit.fruitY == 0)
-{
-srand (time(NULL));
-fruit.fruitX = rand() % SCREEN_WIDTH + 1;
-fruit.fruitY = rand() % SCREEN_HEIGHT + 1;
-}		
+	
 if (check_collision(head.rect, fruit.fruit))
 {
 	fruit.fruitX=0;
 	fruit.fruitY=0;
 }
+if (fruit.fruitX == 0 && fruit.fruitY == 0)
+{
+srand (time(NULL));
+fruit.fruitX = rand() % SCREEN_WIDTH + 1;
+fruit.fruitY = rand() % SCREEN_HEIGHT + 1;
+}	
 head.update();
 head.moving();
 render();
@@ -104,6 +105,7 @@ SDL_SetRenderDrawColor(renderer,255,255,255,255); //Couleur blanche
 fruit.makerectfruit();
 head.makerect();
 SDL_RenderFillRect(renderer, &head.rect);
+SDL_SetRenderDrawColor(renderer,0,255,0,255); //Couleur blanche
 SDL_RenderFillRect(renderer, &fruit.fruit);
 SDL_Delay(5);
 SDL_RenderPresent(renderer);

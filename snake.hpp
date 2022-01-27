@@ -5,7 +5,7 @@
 
 #define SCREEN_WIDTH  1000
 #define SCREEN_HEIGHT 1000
-
+#define SNAKE  25
 
 class Head
 {
@@ -17,22 +17,23 @@ class Head
     int posX;
     int posY;
     char move;
+    char lastmove;
 
 Head(int posX, int posY)
 {
     this->posX = SCREEN_WIDTH/2;
     this->posY = SCREEN_HEIGHT/2;
-    this->rect = {posX,posY,25,25};
+    this->rect = {posX,posY, SNAKE, SNAKE};
    
 }
 void makerect()
 {
-    this->rect = {posX,posY,25,25};
+    this->rect = {posX,posY, SNAKE,SNAKE};
 }
 void update()
 {
 	const Uint8* keystates = SDL_GetKeyboardState( 0 );
-
+    lastmove = move;
 	// Player input.
 	if ( keystates[SDL_SCANCODE_UP] ) {	
 	move = 'U';	
@@ -49,8 +50,16 @@ void update()
 }
 void moving ()
 {
+
 switch (move){
 	case 'U': 
+           while (!posY%SNAKE)
+    {
+        if (lastmove =='L')
+        posX--;
+        else if (lastmove == 'R')
+        posX++;
+    }
 	posY--;
 	if (posY <= 0)
 	{
@@ -58,13 +67,27 @@ switch (move){
 	}
 	break;
 	case 'D': 
+        while (!posY%SNAKE)
+    {
+        if (lastmove =='L')
+        posX--;
+        else if (lastmove == 'R')
+        posX++;
+    }
 	posY++;
-	if (posY >= (SCREEN_HEIGHT-25))
+	if (posY >= (SCREEN_HEIGHT-SNAKE))
 	{
-		posY=(SCREEN_HEIGHT-25);
+		posY=(SCREEN_HEIGHT-SNAKE);
 	}
 	break;
 	case 'L': 
+        while (!posY%SNAKE)
+    {
+        if (lastmove =='U')
+        posY--;
+        else if (lastmove == 'D')
+        posY++;
+    }
 	posX--;
 		if (posX <= 0)
 	{
@@ -72,10 +95,18 @@ switch (move){
 	}
 	break;
 	case 'R': 
+    while (!posY%SNAKE)
+    {
+        if (lastmove =='U')
+        posY--;
+        else if (lastmove == 'D')
+        posY++;
+    }
+    
 	posX++;
-		if (posX >= (SCREEN_WIDTH-25))
+		if (posX >= (SCREEN_WIDTH-SNAKE))
 	{
-		posX=(SCREEN_WIDTH-25);
+		posX=(SCREEN_WIDTH-SNAKE);
 	}
 	break;
 }
