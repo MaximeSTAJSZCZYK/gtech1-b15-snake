@@ -30,10 +30,10 @@ if(renderer == NULL)//gestion des erreurs
 }
 
     SDL_SetRenderDrawColor(renderer,255,0,0,0);
-
+    
 SDL_Rect rect = {0,0,100,100};
-int SDL_RenderDrawRect(SDL_Renderer* renderer, const SDL_Rect* rect);
-int SDL_RenderFillRect(SDL_Renderer*   renderer, const SDL_Rect* rect);
+SDL_RenderDrawRect(renderer, &rect);
+SDL_RenderFillRect(renderer, &rect);
 
 SDL_RenderPresent(renderer);
 SDL_Delay(3000);//pause de 3 secondes
