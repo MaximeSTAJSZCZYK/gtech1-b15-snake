@@ -2,9 +2,9 @@
 #define SNAKE_SNAKE_H
 
 #include <SDL2/SDL.h>
+#include "pos.hpp"
 
-#define SCREEN_WIDTH  1000
-#define SCREEN_HEIGHT 1000
+
 #define SNAKE  25
 
 class Head
@@ -13,22 +13,19 @@ class Head
     
 
     public:
-    SDL_Rect rect;
-    int posX;
-    int posY;
+    
     char move;
     char lastmove;
+	SDL_Rect rect[];
 
-Head(int posX, int posY)
+Head(int posX, int posY, int score)
 {
-    this->posX = SCREEN_WIDTH/2;
-    this->posY = SCREEN_HEIGHT/2;
-    this->rect = {posX,posY, SNAKE, SNAKE};
+    this->rect[score] = {posX,posY, SNAKE, SNAKE};
    
 }
-void makerect()
+void makerect(int posX, int posY, int score)
 {
-    this->rect = {posX,posY, SNAKE,SNAKE};
+    this->rect[score] = {posX,posY, SNAKE,SNAKE};
 }
 void update()
 {
@@ -48,68 +45,69 @@ void update()
 	move = 'R';
 	}
 }
-void moving ()
+void moving (Pos &pos)
 {
 
 switch (move){
 	case 'U': 
-           while (!posY%SNAKE)
+           while (!pos.posY%SNAKE)
     {
         if (lastmove =='L')
-        posX--;
+        pos.posX--;
         else if (lastmove == 'R')
-        posX++;
+        pos.posX++;
     }
-	posY--;
-	if (posY <= 0)
+	pos.posY--;
+	if (pos.posY <= 0)
 	{
-		posY=0;
+		pos.posY=0;
 	}
 	break;
 	case 'D': 
-        while (!posY%SNAKE)
+        while (!pos.posY%SNAKE)
     {
         if (lastmove =='L')
-        posX--;
+        pos.posX--;
         else if (lastmove == 'R')
-        posX++;
+        pos.posX++;
     }
-	posY++;
-	if (posY >= (SCREEN_HEIGHT-SNAKE))
+	pos.posY++;
+	if (pos.posY >= (SCREEN_HEIGHT-SNAKE))
 	{
-		posY=(SCREEN_HEIGHT-SNAKE);
+		pos.posY=(SCREEN_HEIGHT-SNAKE);
 	}
 	break;
 	case 'L': 
-        while (!posY%SNAKE)
+        while (!pos.posY%SNAKE)
     {
         if (lastmove =='U')
-        posY--;
+        pos.posY--;
         else if (lastmove == 'D')
-        posY++;
+        pos.posY++;
     }
-	posX--;
-		if (posX <= 0)
+	pos.posX--;
+		if (pos.posX <= 0)
 	{
-		posX=0;
+		pos.posX=0;
 	}
 	break;
 	case 'R': 
-    while (!posY%SNAKE)
+    while (!pos.posY%SNAKE)
     {
         if (lastmove =='U')
-        posY--;
+        pos.posY--;
         else if (lastmove == 'D')
-        posY++;
+        pos.posY++;
     }
     
-	posX++;
-		if (posX >= (SCREEN_WIDTH-SNAKE))
+	pos.posX++;
+		if (pos.posX >= (SCREEN_WIDTH-SNAKE))
 	{
-		posX=(SCREEN_WIDTH-SNAKE);
+		pos.posX=(SCREEN_WIDTH-SNAKE);
 	}
 	break;
 }
+
 }
 };
 
