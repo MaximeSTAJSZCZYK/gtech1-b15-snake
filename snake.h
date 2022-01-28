@@ -1,7 +1,0 @@
-#ifndef SNAKE_SNAKE_H
-#define SNAKE_SNAKE_H
-
-#define SCREEN_WIDTH  800
-#define SCREEN_HEIGHT 600
-
-#endif // SNAKE_SNAKE_H
