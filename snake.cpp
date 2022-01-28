@@ -15,6 +15,7 @@ SDL_Renderer* renderer;//Déclaration du renderer
 
 
 int score = 0; 
+int verif = 0;
 int  init( void );
 bool check_collision( SDL_Rect &A, SDL_Rect &B );
 void render(void);
@@ -31,7 +32,7 @@ int main()
 		return initCode;
 	bool closeRequest = false;
 	SDL_Event e;
-	pos.push_back(Pos(500,500));
+	pos.push_back(Pos(500,500,score));
 	Uint32 frameStart, frameTime, frameDelay = 60;
 	while ( !closeRequest )
 	{
@@ -60,7 +61,8 @@ if (check_collision(head.rect[0], fruit.fruit))
 {
 	fruit.fruitX=0;
 	fruit.fruitY=0;
-	score++;
+	score+= 25;
+	verif++;
 
 }
 if (fruit.fruitX == 0 && fruit.fruitY == 0)
@@ -73,15 +75,7 @@ head.update();
 head.moving(pos[0]);
 
 render();
-for (int i = 1; i < score; i++)
-{
-	pos.push_back(Pos(pos[0].posX,pos[0].posY));
-}
-for (int j = score; j!= 0; j--)
-{
-	pos[j].posX = pos[j-1].posX;
-	pos[j].posY = pos[j-1].posY;
-}
+
 }
 // Destruction du renderer et de la fenêtre :
 SDL_DestroyRenderer(renderer); 
@@ -127,10 +121,26 @@ fruit.makerectfruit();
 head.makerect(pos[0].posX, pos[0].posY, 0);
 SDL_RenderFillRect(renderer, &head.rect[0]);
 
-for (int i = 0; i < score; i++)
+for (int i = 1; i < score; i++)
 {
-	head.makerect(pos[score].posX, pos[score].posY, score);
-	SDL_RenderFillRect(renderer, &head.rect[score]);
+	pos.push_back(Pos(pos[i-1].posX,pos[i-1].posY,i));
+}
+
+
+for (int j = score; j!= 0; j--)
+{	
+
+	pos[j].posX = pos[j-1].posX;
+	pos[j].posY = pos[j-1].posY;
+	
+	
+}
+
+for (int i = 1; i < score; i++)
+{printf("avant\n");
+	head.makerect(pos[i].posX, pos[i].posY, i);
+	printf("apres\n");
+	SDL_RenderFillRect(renderer, &head.rect[i]);
 }
 
 
@@ -141,6 +151,7 @@ SDL_RenderPresent(renderer);
 SDL_Delay(5);
 SDL_SetRenderDrawColor(renderer,0,0,0,255);
 SDL_RenderClear(renderer);
+
 }
 
 bool check_collision( SDL_Rect &A, SDL_Rect &B )

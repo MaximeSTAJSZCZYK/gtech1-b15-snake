@@ -2,7 +2,9 @@
 #define SNAKE_SNAKE_H
 
 #include <SDL2/SDL.h>
+#include <vector>
 #include "pos.hpp"
+using namespace std;
 
 
 #define SNAKE  25
@@ -17,14 +19,17 @@ class Head
     char move;
     char lastmove;
 	SDL_Rect rect[];
+	
 
 Head(int posX, int posY, int score)
 {
+	
     this->rect[score] = {posX,posY, SNAKE, SNAKE};
    
 }
 void makerect(int posX, int posY, int score)
 {
+	SDL_Rect *array = new SDL_Rect[score];
     this->rect[score] = {posX,posY, SNAKE,SNAKE};
 }
 void update()

@@ -12,10 +12,14 @@ class Pos
     int posY;
     int posX;
 
-    Pos( int posY, int posX)
-    {
+    Pos( int posY, int posX, int score)
+    {       
+            if (score == 0)
+            {
             this->posX = SCREEN_WIDTH/2;
             this->posY = SCREEN_HEIGHT/2;
+            }
+            
     }
 };
 
