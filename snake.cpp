@@ -57,7 +57,7 @@ int main()
 
 
 	
-if (check_collision(head.rect[0], fruit.fruit))
+if (check_collision(pos[0].rect, fruit.fruit))
 {
 	fruit.fruitX=0;
 	fruit.fruitY=0;
@@ -71,7 +71,7 @@ srand (time(NULL));
 fruit.fruitX = rand() % SCREEN_WIDTH + 1;
 fruit.fruitY = rand() % SCREEN_HEIGHT + 1;
 }	
-head.update();
+head.update(pos[0]);
 head.moving(pos[0]);
 
 render();
@@ -118,8 +118,8 @@ void render ()
 SDL_SetRenderDrawColor(renderer,255,255,255,255); //Couleur blanche
 fruit.makerectfruit();
 
-head.makerect(pos[0].posX, pos[0].posY, 0);
-SDL_RenderFillRect(renderer, &head.rect[0]);
+pos[0].makerect(pos[0].posX, pos[0].posY, 0);
+SDL_RenderFillRect(renderer, &pos[0].rect);
 
 for (int i = 1; i < score; i++)
 {
@@ -129,24 +129,20 @@ for (int i = 1; i < score; i++)
 
 for (int j = score; j!= 0; j--)
 {	
-
 	pos[j].posX = pos[j-1].posX;
 	pos[j].posY = pos[j-1].posY;
-	
-	
 }
 
 for (int i = 1; i < score; i++)
-{printf("avant\n");
-	head.makerect(pos[i].posX, pos[i].posY, i);
-	printf("apres\n");
-	SDL_RenderFillRect(renderer, &head.rect[i]);
+{
+	pos[i].makerect(pos[i].posX, pos[i].posY, i);
+	SDL_RenderFillRect(renderer, &pos[i].rect);
 }
 
 
 SDL_SetRenderDrawColor(renderer,0,255,0,255); //Couleur blanche
 SDL_RenderFillRect(renderer, &fruit.fruit);
-SDL_Delay(5);
+SDL_Delay(1);
 SDL_RenderPresent(renderer);
 SDL_Delay(5);
 SDL_SetRenderDrawColor(renderer,0,0,0,255);

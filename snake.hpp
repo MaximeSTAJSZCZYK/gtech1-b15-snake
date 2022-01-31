@@ -12,56 +12,52 @@ using namespace std;
 class Head
 {
     private :
-    
 
     public:
-    
     char move;
     char lastmove;
-	SDL_Rect rect[];
-	
 
 Head(int posX, int posY, int score)
-{
-	
-    this->rect[score] = {posX,posY, SNAKE, SNAKE};
-   
+{  
 }
-void makerect(int posX, int posY, int score)
-{
-	SDL_Rect *array = new SDL_Rect[score];
-    this->rect[score] = {posX,posY, SNAKE,SNAKE};
-}
-void update()
+
+void update(Pos &pos)
 {
 	const Uint8* keystates = SDL_GetKeyboardState( 0 );
     lastmove = move;
 	// Player input.
-	if ( keystates[SDL_SCANCODE_UP] ) {	
-	move = 'U';	
-	}
-	if ( keystates[SDL_SCANCODE_DOWN] ) {
-	move = 'D';
-	}
-		if ( keystates[SDL_SCANCODE_LEFT] ) {
-	move = 'L';
-	}
-		if ( keystates[SDL_SCANCODE_RIGHT] ) {
-	move = 'R';
-	}
+
+		if ( keystates[SDL_SCANCODE_UP]  && pos.posX%SNAKE == 0) {	
+			if (lastmove == 'D'){}	
+			else {
+				move = 'U';
+			} 	
+		}
+		if ( keystates[SDL_SCANCODE_DOWN] && pos.posX%SNAKE == 0) {
+			if (lastmove == 'U'){}	
+			else {
+				move = 'D';
+			} 
+		}
+		if ( keystates[SDL_SCANCODE_LEFT] && pos.posY%SNAKE == 0) {
+				if (lastmove == 'R'){}	
+			else {
+				move = 'L';
+			} 
+		}
+		if ( keystates[SDL_SCANCODE_RIGHT] && pos.posY%SNAKE == 0) {
+				if (lastmove == 'L'){}	
+			else {
+				move = 'R';
+			} 
+		}
+	
 }
 void moving (Pos &pos)
 {
 
 switch (move){
 	case 'U': 
-           while (!pos.posY%SNAKE)
-    {
-        if (lastmove =='L')
-        pos.posX--;
-        else if (lastmove == 'R')
-        pos.posX++;
-    }
 	pos.posY--;
 	if (pos.posY <= 0)
 	{
@@ -69,13 +65,6 @@ switch (move){
 	}
 	break;
 	case 'D': 
-        while (!pos.posY%SNAKE)
-    {
-        if (lastmove =='L')
-        pos.posX--;
-        else if (lastmove == 'R')
-        pos.posX++;
-    }
 	pos.posY++;
 	if (pos.posY >= (SCREEN_HEIGHT-SNAKE))
 	{
@@ -83,28 +72,13 @@ switch (move){
 	}
 	break;
 	case 'L': 
-        while (!pos.posY%SNAKE)
-    {
-        if (lastmove =='U')
-        pos.posY--;
-        else if (lastmove == 'D')
-        pos.posY++;
-    }
 	pos.posX--;
 		if (pos.posX <= 0)
 	{
 		pos.posX=0;
 	}
 	break;
-	case 'R': 
-    while (!pos.posY%SNAKE)
-    {
-        if (lastmove =='U')
-        pos.posY--;
-        else if (lastmove == 'D')
-        pos.posY++;
-    }
-    
+	case 'R':  
 	pos.posX++;
 		if (pos.posX >= (SCREEN_WIDTH-SNAKE))
 	{
@@ -114,6 +88,8 @@ switch (move){
 }
 
 }
+
+
 };
 
 

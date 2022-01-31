@@ -1,8 +1,10 @@
 #ifndef POS_POS_H
 #define POS_POS_H
 
-#define SCREEN_WIDTH  1000
-#define SCREEN_HEIGHT 1000
+#define SCREEN_WIDTH  600
+#define SCREEN_HEIGHT 600
+
+#define SNAKE  25
 
 class Pos
 {
@@ -11,9 +13,11 @@ class Pos
     public :
     int posY;
     int posX;
+    SDL_Rect rect;
 
     Pos( int posY, int posX, int score)
     {       
+            this->rect = {posX,posY, SNAKE, SNAKE};
             if (score == 0)
             {
             this->posX = SCREEN_WIDTH/2;
@@ -21,6 +25,11 @@ class Pos
             }
             
     }
+    void makerect(int posX, int posY, int score)
+{
+	
+    this->rect = {posX,posY, SNAKE,SNAKE};
+}
 };
 
 
