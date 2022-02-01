@@ -19,6 +19,7 @@ int verif = 0;
 int  init( void );
 bool check_collision( SDL_Rect &A, SDL_Rect &B );
 void render(void);
+void makefruitrand(void);
 Fruit fruit(0,0);
 vector<Pos> pos;
 Head head(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,score );
@@ -65,16 +66,20 @@ if (check_collision(pos[0].rect, fruit.fruit))
 	verif++;
 
 }
-if (fruit.fruitX == 0 && fruit.fruitY == 0)
-{
-srand (time(NULL));
-fruit.fruitX = rand() % SCREEN_WIDTH + 1;
-fruit.fruitY = rand() % SCREEN_HEIGHT + 1;
-}	
+makefruitrand();
+
+
 head.update(pos[0]);
 head.moving(pos[0]);
 
 render();
+for (int i = (SNAKE*2); i < score; i++)
+{
+	if(check_collision(pos[0].rect, pos[i].rect))
+	{
+	//printf("collusion with snake\n");
+	}
+}
 
 }
 // Destruction du renderer et de la fenêtre :
@@ -123,7 +128,7 @@ SDL_RenderFillRect(renderer, &pos[0].rect);
 
 for (int i = 1; i < score; i++)
 {
-	pos.push_back(Pos(pos[i-1].posX,pos[i-1].posY,i));
+	pos.push_back(Pos(pos[i].posX,pos[i].posY,i));
 }
 
 
@@ -133,10 +138,10 @@ for (int j = score; j!= 0; j--)
 	pos[j].posY = pos[j-1].posY;
 }
 
-for (int i = 1; i < score; i++)
+for (int k = 1; k < score; k++)
 {
-	pos[i].makerect(pos[i].posX, pos[i].posY, i);
-	SDL_RenderFillRect(renderer, &pos[i].rect);
+	pos[k].makerect(pos[k].posX, pos[k].posY, k);
+	SDL_RenderFillRect(renderer, &pos[k].rect);
 }
 
 
@@ -192,4 +197,27 @@ bool check_collision( SDL_Rect &A, SDL_Rect &B )
  
     //Si conditions collision detectee
     return true;
+}
+void makefruitrand(void)
+{
+	int cordnotgood = 0;
+if ((fruit.fruitX == 0 && fruit.fruitY == 0) || cordnotgood == 1)
+{
+srand (time(NULL));
+fruit.fruitX = rand() % SCREEN_WIDTH-SNAKE + 1;
+fruit.fruitY = rand() % SCREEN_HEIGHT-SNAKE + 1;
+cordnotgood = 0;
+	
+for (int j = 0; j < score; j++)
+{
+	if (pos[j].posX ==fruit.fruitX && pos[j].posY == fruit.fruitY) {
+		//printf("fruit dans snake");
+		cordnotgood = 1;
+		makefruitrand();
+		
+	}
+
+}
+}
+
 }

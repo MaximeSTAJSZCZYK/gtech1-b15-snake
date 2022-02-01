@@ -23,6 +23,7 @@ void makerectfruit()
 {
     this->fruit = {fruitX,fruitY,25,25};
 }
+
 };
 
 
