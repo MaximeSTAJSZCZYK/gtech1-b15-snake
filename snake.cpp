@@ -9,6 +9,7 @@ using namespace std;
 #include "snake.hpp"
 #include "fruit.hpp"
 #include "pos.hpp"
+#include "text.hpp"
 
 SDL_Window* window;
 SDL_Renderer* renderer;//Déclaration du renderer
@@ -19,22 +20,36 @@ int verif = 0;
 int  init( void );
 bool check_collision( SDL_Rect &A, SDL_Rect &B );
 void render(void);
-void makefruitrand(void);
+int makefruitrand(void);
 Fruit fruit(0,0);
 vector<Pos> pos;
+vector<Text> text;
 Head head(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,score );
+    
+int snake[5][50] = {
+                    {0,1,1,1,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,1,1,1,0,1},
+                    {1,0,0,0,0,1,1,0,1,0,1,0,1,0,1,0,1,0,0,1,0,0,0,1},
+                    {0,1,1,0,0,1,0,1,1,0,1,1,1,0,1,1,0,0,0,1,1,1,0,1},
+                    {0,0,0,1,0,1,0,0,1,0,1,0,1,0,1,0,1,0,0,1,0,0,0,0},
+                    {1,1,1,0,0,1,0,0,1,0,1,0,1,0,1,0,0,1,0,1,1,1,0,1}}; 
+
+int row; 
+int column;
 
 
 int main()
 {
 	const Uint8* keystates = SDL_GetKeyboardState( 0 );
 	int initCode = init();
-	if ( initCode )
-		return initCode;
 	bool closeRequest = false;
 	SDL_Event e;
 	pos.push_back(Pos(500,500,score));
-	Uint32 frameStart, frameTime, frameDelay = 60;
+	
+	Uint32 frameStart, frameTime, frameDelay = 5;
+
+	if ( initCode )
+		return initCode;
+
 	while ( !closeRequest )
 	{
 		frameStart = SDL_GetTicks();
@@ -54,25 +69,41 @@ int main()
 			}
 		}
 	
+row = sizeof(snake)/sizeof(snake[0]);
+column = sizeof(snake[0])/row;
 
-
-
+	for (int i = 0; i < row; i++)
+	{
+		text.push_back(Text(snake[i]));
+	}
 	
-if (check_collision(pos[0].rect, fruit.fruit))
-{
-	fruit.fruitX=0;
-	fruit.fruitY=0;
-	score+= 25;
-	verif++;
 
+
+for (int j = 0; j < row; j++)
+{
+	   for (int k = 0; k < sizeof(text[j].row); k++) {
+	   
+    if(text[j].row[k] == 1){
+        SDL_SetRenderDrawColor(renderer,50,200,50,0);
+        SDL_Rect rect = {SCREEN_WIDTH/10+(k*20),SCREEN_HEIGHT/10+(j*20),20,20};
+        SDL_RenderDrawRect(renderer, &rect);
+        SDL_RenderFillRect(renderer, &rect);
+    }
 }
-makefruitrand();
+}
+
+
 
 
 head.update(pos[0]);
 head.moving(pos[0]);
 
 render();
+makefruitrand();
+
+
+
+
 for (int i = (SNAKE*2); i < score; i++)
 {
 	if(check_collision(pos[0].rect, pos[i].rect))
@@ -80,6 +111,11 @@ for (int i = (SNAKE*2); i < score; i++)
 	//printf("collusion with snake\n");
 	}
 }
+	frameTime = SDL_GetTicks() - frameStart;
+		if ( frameTime < frameDelay )
+		{
+			SDL_Delay( frameDelay - frameTime );
+		}
 
 }
 // Destruction du renderer et de la fenêtre :
@@ -147,9 +183,9 @@ for (int k = 1; k < score; k++)
 
 SDL_SetRenderDrawColor(renderer,0,255,0,255); //Couleur blanche
 SDL_RenderFillRect(renderer, &fruit.fruit);
-SDL_Delay(1);
+//SDL_Delay(1);
 SDL_RenderPresent(renderer);
-SDL_Delay(5);
+//SDL_Delay(5);
 SDL_SetRenderDrawColor(renderer,0,0,0,255);
 SDL_RenderClear(renderer);
 
@@ -198,26 +234,39 @@ bool check_collision( SDL_Rect &A, SDL_Rect &B )
     //Si conditions collision detectee
     return true;
 }
-void makefruitrand(void)
+int makefruitrand(void)
 {
-	int cordnotgood = 0;
-if ((fruit.fruitX == 0 && fruit.fruitY == 0) || cordnotgood == 1)
-{
-srand (time(NULL));
-fruit.fruitX = rand() % SCREEN_WIDTH-SNAKE + 1;
-fruit.fruitY = rand() % SCREEN_HEIGHT-SNAKE + 1;
-cordnotgood = 0;
 	
+if ((fruit.fruitX == 0 && fruit.fruitY == 0) )
+{
+	printf("new fruit\n");
+srand (time(NULL));
+fruit.fruitX = rand() % (SCREEN_WIDTH-SNAKE) + SNAKE;
+fruit.fruitY = rand() % (SCREEN_HEIGHT-SNAKE) + SNAKE;
+
+}	
+	
+if (check_collision(pos[0].rect, fruit.fruit))
+{
+
+	score+= 25;
+	verif++;
+
+}
 for (int j = 0; j < score; j++)
 {
-	if (pos[j].posX ==fruit.fruitX && pos[j].posY == fruit.fruitY) {
-		//printf("fruit dans snake");
-		cordnotgood = 1;
-		makefruitrand();
+	
+	if (check_collision(pos[j].rect,fruit.fruit) == 1) {
+		//printf("fruit dans snake\n");
+		//printf("%d/%d : %d/%d\n",pos[j].posX,pos[j].posY,fruit.fruitX,fruit.fruitY);
+		//cordnotgood = 1;
 		
+		fruit.fruitX = rand() % (SCREEN_WIDTH-SNAKE) + SNAKE;
+		fruit.fruitY = rand() % (SCREEN_HEIGHT-SNAKE) + SNAKE;
+		return 0;
 	}
 
 }
-}
 
+return 0;
 }

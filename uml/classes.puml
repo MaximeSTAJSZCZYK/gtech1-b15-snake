@@ -1,0 +1,61 @@
+@startuml
+
+
+
+
+
+/' Objects '/
+
+class Fruit {
+	+Fruit(int fruitX, int fruitY)
+	+fruit : SDL_Rect
+	+fruitX : int
+	+fruitY : int
+	+makerectfruit() : void
+}
+
+
+class Head {
+	+Head(int posX, int posY, int score)
+	+lastmove : char
+	+move : char
+	+moving(Pos& pos) : void
+	+update(Pos& pos) : void
+}
+
+
+class Pos {
+	+Pos(int posY, int posX, int score)
+	+rect : SDL_Rect
+	+posX : int
+	+posY : int
+	+makerect(int posX, int posY, int score) : void
+}
+
+
+class Text {
+	+Text(int text)
+	+row : int
+}
+
+
+
+
+
+/' Inheritance relationships '/
+
+
+
+
+/' Aggregation relationships '/
+
+
+
+
+
+/' Nested objects '/
+
+
+
+@enduml
+
