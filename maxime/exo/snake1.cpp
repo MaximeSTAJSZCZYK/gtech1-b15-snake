@@ -5,8 +5,18 @@
 #include <iostream>
 #include <list>
 
-#define HeightTextTitle SCREEN_HEIGHT/100*2
-#define HeightText SCREEN_HEIGHT/100*1
+#define SizeTitle SCREEN_HEIGHT/100*2
+#define HeightTitle SCREEN_HEIGHT/100*15
+#define WidthTextTitle SCREEN_WIDTH/100*30
+
+#define SizeText SCREEN_HEIGHT/100
+#define WidthText SCREEN_WIDTH/100*40
+#define HeightText1 SCREEN_HEIGHT/100*30
+#define HeightText2 SCREEN_HEIGHT/100*45
+#define HeightText3 SCREEN_HEIGHT/100*60
+
+
+#define WidthArrow SCREEN_WIDTH/100*25
 
 int main(int argc, char *argv[])
 {
@@ -18,22 +28,6 @@ int main(int argc, char *argv[])
     int SCREEN_HEIGHT = 600;
     int SCREEN_WIDTH = 600;
 
-    //int menu[];
-
-    int start[5][50] = {
-                    {0,1,1,1,0,1,1,1,0,0,1,0,0,1,1,1,0,0,1,1,1},
-                    {1,0,0,0,0,0,1,0,0,1,0,1,0,1,0,0,1,0,0,1,0},
-                    {0,1,1,0,0,0,1,0,0,1,1,1,0,1,1,1,0,0,0,1,0},
-                    {0,0,0,1,0,0,1,0,0,1,0,1,0,1,0,1,0,0,0,1,0},
-                    {1,1,1,0,0,0,1,0,0,1,0,1,0,1,0,0,1,0,0,1,0}};
-                  
-
-    int snake[5][50] = {
-                    {0,1,1,1,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,1,1,1,0,1},
-                    {1,0,0,0,0,1,1,0,1,0,1,0,1,0,1,0,1,0,0,1,0,0,0,1},
-                    {0,1,1,0,0,1,0,1,1,0,1,1,1,0,1,1,0,0,0,1,1,1,0,1},
-                    {0,0,0,1,0,1,0,0,1,0,1,0,1,0,1,0,1,0,0,1,0,0,0,0},
-                    {1,1,1,0,0,1,0,0,1,0,1,0,1,0,1,0,0,1,0,1,1,1,0,1}}; 
 
     int option[5][50] = {
                     {0,1,1,0,0,0,1,1,0,0,1,1,1,0,1,0,0,1,1,0,0,1,0,0,1},
@@ -56,12 +50,80 @@ int main(int argc, char *argv[])
                     {1,0,0,1,0,1,0,1,0,1,0,0,0,1,0,1,0,0,0,0,1,0,1,0,1,0,1,0,1,0,0,0,1,0,1,0,0,0},
                     {0,1,1,0,0,1,0,1,0,1,0,0,0,1,0,1,1,1,0,0,1,1,1,0,0,1,0,0,1,1,1,0,1,0,0,1,0,1}}; 
 
-    int numbers[5][60] = {
-                    {1,1,1,0,0,1,0,0,1,1,0,0,1,1,0,0,1,0,1,0,1,1,1,0,1,1,1,0,1,1,0,0,1,1,1,0,1,1,1,0,0},
-                    {1,0,1,0,1,1,0,1,0,0,1,0,0,0,1,0,1,0,1,0,1,0,0,0,1,0,0,0,0,1,0,0,1,0,1,0,1,0,1,0,0},
-                    {1,0,1,0,0,1,0,0,0,1,0,0,0,1,1,0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1,0,0},
-                    {1,0,1,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0,1,0,0,0,1,0,1,0,1,0,0,1,0,0,1,0,1,0,0,0,1,0,0},
-                    {1,1,1,0,0,1,0,1,1,1,1,0,1,1,0,0,0,0,1,0,1,1,1,0,1,1,1,0,0,1,0,0,1,1,1,0,1,1,1,0,0}}; 
+//-------------------------Start Numbers-------------------------
+
+    int number0[5][4] = {
+                    {1,1,1,0},
+                    {1,0,1,0},
+                    {1,0,1,0},
+                    {1,0,1,0},
+                    {1,1,1,0}}; 
+
+    int number1[5][4] = {
+                    {0,0,1,0},
+                    {0,1,1,0},
+                    {0,0,1,0},
+                    {0,0,1,0},
+                    {0,0,1,0}};
+
+    int number2[5][4] = {
+                    {0,1,1,0},
+                    {1,0,0,1},
+                    {0,0,1,0},
+                    {0,1,0,0},
+                    {1,1,1,1}};
+
+    int number3[5][4] = {
+                    {0,1,1,0},
+                    {0,0,0,1},
+                    {0,0,1,0},
+                    {0,0,0,1},
+                    {0,1,1,0}};
+
+    int number4[5][4] = {
+                    {1,0,1,0},
+                    {1,0,1,0},
+                    {1,1,1,0},
+                    {0,0,1,0},
+                    {0,0,1,0}};
+
+    int number5[5][4] = {
+                    {1,1,1,0},
+                    {1,0,0,0},
+                    {1,1,1,0},
+                    {0,0,1,0},
+                    {1,1,1,0}};
+
+    int number6[5][4] = {
+                    {1,1,1,0},
+                    {1,0,0,0},
+                    {1,1,1,0},
+                    {1,0,1,0},
+                    {1,1,1,0}};
+
+    int number7[5][4] = {
+                    {1,1,0,0},
+                    {0,1,0,0},
+                    {1,1,1,0},
+                    {0,1,0,0},
+                    {0,1,0,0}};
+
+    int number8[5][4] = {
+                    {1,1,1,0},
+                    {1,0,1,0},
+                    {1,1,1,0},
+                    {1,0,1,0},
+                    {1,1,1,0}};
+
+    int number9[5][4] = {
+                    {1,1,1,0},
+                    {1,0,1,0},
+                    {1,1,1,0},
+                    {0,0,1,0},
+                    {1,1,1,0}};
+
+//-------------------------End Numbers-------------------------
+
 
     int arrow[5][10] = {
                     {0,0,0,1,0,0},
@@ -69,7 +131,6 @@ int main(int argc, char *argv[])
                     {1,1,1,1,1,1},
                     {0,0,0,0,1,0},
                     {0,0,0,1,0,0}}; 
-
 
 
 if(SDL_VideoInit(NULL) < 0)
@@ -94,6 +155,16 @@ if(renderer == NULL)
     return EXIT_FAILURE;
 }
 
+//-------------------------SNAKE-------------------------
+
+// /*
+
+    int snake[5][50] = {
+                    {0,1,1,1,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,1,1,1,0,1},
+                    {1,0,0,0,0,1,1,0,1,0,1,0,1,0,1,0,1,0,0,1,0,0,0,1},
+                    {0,1,1,0,0,1,0,1,1,0,1,1,1,0,1,1,0,0,0,1,1,1,0,1},
+                    {0,0,0,1,0,1,0,0,1,0,1,0,1,0,1,0,1,0,0,1,0,0,0,0},
+                    {1,1,1,0,0,1,0,0,1,0,1,0,1,0,1,0,0,1,0,1,1,1,0,1}}; 
 
 row = sizeof(snake)/sizeof(snake[0]);
 column = sizeof(snake[0])/row;
@@ -102,12 +173,29 @@ for (int i = 0; i < row; i++)
    for (int k = 0; k < column; k++) {
     if(snake[i][k] == 1){
         SDL_SetRenderDrawColor(renderer,50,200,50,0);
-        SDL_Rect rect = {SCREEN_WIDTH/100*30+(k*HeightTextTitle),SCREEN_HEIGHT/100*10+(i*HeightTextTitle),HeightTextTitle,HeightTextTitle};
+        SDL_Rect rect = {WidthTextTitle+(k*SizeTitle),HeightTitle+(i*SizeTitle),SizeTitle,SizeTitle};
         SDL_RenderDrawRect(renderer, &rect);
         SDL_RenderFillRect(renderer, &rect);
     }
 }
 }
+
+// */
+
+//-------------------------END SNAKE-------------------------
+
+
+
+//-------------------------START-------------------------
+
+/*
+
+    int start[5][50] = {
+                    {0,1,1,1,0,1,1,1,0,0,1,0,0,1,1,1,0,0,1,1,1},
+                    {1,0,0,0,0,0,1,0,0,1,0,1,0,1,0,0,1,0,0,1,0},
+                    {0,1,1,0,0,0,1,0,0,1,1,1,0,1,1,1,0,0,0,1,0},
+                    {0,0,0,1,0,0,1,0,0,1,0,1,0,1,0,1,0,0,0,1,0},
+                    {1,1,1,0,0,0,1,0,0,1,0,1,0,1,0,0,1,0,0,1,0}};
 
 row = sizeof(start)/sizeof(start[0]);
 column = sizeof(start[0])/row;
@@ -116,12 +204,22 @@ for (int i = 0; i < row; i++)
    for (int k = 0; k < column; k++) {
     if(start[i][k] == 1){
         SDL_SetRenderDrawColor(renderer,255,255,255,255);
-        SDL_Rect rect = {SCREEN_WIDTH/100*40+(k*HeightText),SCREEN_HEIGHT/100*30+(i*HeightText),HeightText,HeightText};
+        SDL_Rect rect = {WidthTextTitle+(k*HeightText),SCREEN_HEIGHT/100*30+(i*HeightText),HeightText,HeightText};
         SDL_RenderDrawRect(renderer, &rect);
         SDL_RenderFillRect(renderer, &rect);
     }
 }
 }
+
+*/
+
+//-------------------------END START-------------------------
+
+
+
+//-------------------------OPTION-------------------------
+
+/*
 
 row = sizeof(option)/sizeof(option[0]);
 column = sizeof(option[0])/row;
@@ -130,12 +228,22 @@ for (int i = 0; i < row; i++)
    for (int k = 0; k < column; k++) {
     if(option[i][k] == 1){
         SDL_SetRenderDrawColor(renderer,255,255,255,255);
-        SDL_Rect rect = {SCREEN_WIDTH/100*40+(k*10),SCREEN_HEIGHT/100*45+(i*10),10,10};
+        SDL_Rect rect = {WidthTextTitle+(k*HeightText),SCREEN_HEIGHT/100*45+(i*HeightText),HeightText,HeightText};
         SDL_RenderDrawRect(renderer, &rect);
         SDL_RenderFillRect(renderer, &rect);
     }
 }
 }
+
+*/
+
+//-------------------------END OPTION-------------------------
+
+
+
+//-------------------------LEAVE-------------------------
+
+// /*
 
 row = sizeof(leave)/sizeof(leave[0]);
 column = sizeof(leave[0])/row;
@@ -144,14 +252,23 @@ for (int i = 0; i < row; i++)
    for (int k = 0; k < column; k++) {
     if(leave[i][k] == 1){
         SDL_SetRenderDrawColor(renderer,255,255,255,255);
-        SDL_Rect rect = {SCREEN_WIDTH/100*40+(k*10),SCREEN_HEIGHT/100*60+(i*10),10,10};
+        SDL_Rect rect = {SCREEN_WIDTH/100*40+(k*HeightText3),SCREEN_HEIGHT/100*60+(i*HeightText3),HeightText3,HeightText3};
         SDL_RenderDrawRect(renderer, &rect);
         SDL_RenderFillRect(renderer, &rect);
     }
 }
 }
 
-/*
+// */
+
+//-------------------------END LEAVE-------------------------
+
+
+
+//-------------------------ARROW-------------------------
+
+
+
 row = sizeof(arrow)/sizeof(arrow[0]);
 column = sizeof(arrow[0])/row;
 for (int i = 0; i < row; i++)
@@ -159,15 +276,23 @@ for (int i = 0; i < row; i++)
    for (int k = 0; k < column; k++) {
     if(arrow[i][k] == 1){
         SDL_SetRenderDrawColor(renderer,255,255,255,255);
-        SDL_Rect rect = {200+(k*10),400+(i*10),10,10};
+        SDL_Rect rect = {WidthArrow+(k*10),400+(i*10),10,10};
         SDL_RenderDrawRect(renderer, &rect);
         SDL_RenderFillRect(renderer, &rect);
     }
 }
 }
-*/
+
+
+
+//-------------------------END ARROW-------------------------
+
+
+
+//-------------------------GAME OVER-------------------------
 
 /*
+
 row = sizeof(gameover)/sizeof(gameover[0]);
 column = sizeof(gameover[0])/row;
 for (int i = 0; i < row; i++)
@@ -182,6 +307,16 @@ for (int i = 0; i < row; i++)
 }
 }
 
+*/
+
+//-------------------------END GAME OVER-------------------------
+
+
+
+//-------------------------NUMBERS-------------------------
+
+/*
+
 row = sizeof(numbers)/sizeof(numbers[0]);
 column = sizeof(numbers[0])/row;
 for (int i = 0; i < row; i++)
@@ -195,7 +330,10 @@ for (int i = 0; i < row; i++)
     }
 }
 }
+
 */
+
+//-------------------------END NUMBERS-------------------------
 
 SDL_Delay(1000); 
 SDL_RenderPresent(renderer);
