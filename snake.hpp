@@ -9,6 +9,10 @@ using namespace std;
 
 #define SNAKE  25
 
+    
+
+
+
 class Head
 {
     private :
@@ -16,24 +20,43 @@ class Head
     public:
     char move;
     char lastmove;
+	int movearrow;
 
 Head(int posX, int posY, int score)
 {  
 }
 
-void update(Pos &pos)
+int update(Pos &pos, int indexmenu)
 {
 	const Uint8* keystates = SDL_GetKeyboardState( 0 );
     lastmove = move;
 	// Player input.
 
 		if ( keystates[SDL_SCANCODE_UP]  && pos.posX%SNAKE == 0) {	
+			if (indexmenu == 0){
+				if (movearrow == 0){
+					movearrow = 0;
+				}
+				else {
+					movearrow--;
+				}
+
+			}
 			if (lastmove == 'D'){}	
 			else {
 				move = 'U';
 			} 	
 		}
 		if ( keystates[SDL_SCANCODE_DOWN] && pos.posX%SNAKE == 0) {
+		if (indexmenu == 0){
+				if (movearrow == 2){
+					movearrow = 2;
+				}
+				else {
+					movearrow++;
+				}
+
+			}
 			if (lastmove == 'U'){}	
 			else {
 				move = 'D';
@@ -51,6 +74,22 @@ void update(Pos &pos)
 				move = 'R';
 			} 
 		}
+		if ( keystates[SDL_SCANCODE_RETURN]) {
+		
+			switch (movearrow){
+				case 0: 
+				return 1;
+				
+				break;
+			}
+		}
+		
+		if (indexmenu == 0)
+		{
+			printf("wait\n");
+			SDL_Delay(100);
+		}
+		return 0;
 	
 }
 void moving (Pos &pos)

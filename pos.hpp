@@ -1,6 +1,8 @@
 #ifndef POS_POS_H
 #define POS_POS_H
 
+#include <SDL2/SDL.h>
+
 #define SCREEN_WIDTH  600
 #define SCREEN_HEIGHT 600
 

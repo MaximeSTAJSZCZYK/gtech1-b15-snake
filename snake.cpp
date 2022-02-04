@@ -10,6 +10,7 @@ using namespace std;
 #include "fruit.hpp"
 #include "pos.hpp"
 #include "text.hpp"
+#include "sentence.h"
 
 SDL_Window* window;
 SDL_Renderer* renderer;//Déclaration du renderer
@@ -17,35 +18,37 @@ SDL_Renderer* renderer;//Déclaration du renderer
 
 int score = 0; 
 int verif = 0;
+int indexmenu = 0;
+int arrowpos = 0;
 int  init( void );
 bool check_collision( SDL_Rect &A, SDL_Rect &B );
 void render(void);
 int makefruitrand(void);
+void game (void);
+void maketext(int alltext[][35], std::vector<Text> sentence, int row, int size, int height, int width);
+void menu ();
 Fruit fruit(0,0);
 vector<Pos> pos;
-vector<Text> text;
+vector<Text> snaketext;
+vector<Text> starttext;
+vector<Text> optiontext;
+vector<Text> leavetext;
+vector<Text> arrowtext;
 Head head(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,score );
-    
-int snake[5][50] = {
-                    {0,1,1,1,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,1,1,1,0,1},
-                    {1,0,0,0,0,1,1,0,1,0,1,0,1,0,1,0,1,0,0,1,0,0,0,1},
-                    {0,1,1,0,0,1,0,1,1,0,1,1,1,0,1,1,0,0,0,1,1,1,0,1},
-                    {0,0,0,1,0,1,0,0,1,0,1,0,1,0,1,0,1,0,0,1,0,0,0,0},
-                    {1,1,1,0,0,1,0,0,1,0,1,0,1,0,1,0,0,1,0,1,1,1,0,1}}; 
+int posarrow[3] = {HeightText1, HeightText2 ,HeightText3  };
 
-int row; 
-int column;
 
 
 int main()
 {
+	
 	const Uint8* keystates = SDL_GetKeyboardState( 0 );
 	int initCode = init();
 	bool closeRequest = false;
 	SDL_Event e;
 	pos.push_back(Pos(500,500,score));
 	
-	Uint32 frameStart, frameTime, frameDelay = 5;
+	Uint32 frameStart, frameTime, frameDelay = 10;
 
 	if ( initCode )
 		return initCode;
@@ -68,49 +71,17 @@ int main()
 				}
 			}
 		}
+switch (indexmenu){
 	
-row = sizeof(snake)/sizeof(snake[0]);
-column = sizeof(snake[0])/row;
-
-	for (int i = 0; i < row; i++)
-	{
-		text.push_back(Text(snake[i]));
-	}
-	
-
-
-for (int j = 0; j < row; j++)
-{
-	   for (int k = 0; k < sizeof(text[j].row); k++) {
-	   
-    if(text[j].row[k] == 1){
-        SDL_SetRenderDrawColor(renderer,50,200,50,0);
-        SDL_Rect rect = {SCREEN_WIDTH/10+(k*20),SCREEN_HEIGHT/10+(j*20),20,20};
-        SDL_RenderDrawRect(renderer, &rect);
-        SDL_RenderFillRect(renderer, &rect);
-    }
-}
+	case 0:
+	menu();
+	break;
+	case 1:
+	game();
+	break;
 }
 
 
-
-
-head.update(pos[0]);
-head.moving(pos[0]);
-
-render();
-makefruitrand();
-
-
-
-
-for (int i = (SNAKE*2); i < score; i++)
-{
-	if(check_collision(pos[0].rect, pos[i].rect))
-	{
-	//printf("collusion with snake\n");
-	}
-}
 	frameTime = SDL_GetTicks() - frameStart;
 		if ( frameTime < frameDelay )
 		{
@@ -269,4 +240,68 @@ for (int j = 0; j < score; j++)
 }
 
 return 0;
+}
+
+void game (void)
+{
+
+
+head.update(pos[0],indexmenu);
+head.moving(pos[0]);
+
+render();
+makefruitrand();
+
+
+
+
+for (int i = (SNAKE*2); i < score; i++)
+{
+	if(check_collision(pos[0].rect, pos[i].rect))
+	{
+	//printf("collusion with snake\n");
+	}
+}
+
+}
+
+void maketext(int alltext[][35], std::vector<Text> sentence, int row, int size, int height, int width)
+{
+
+	int column;
+
+	column = sizeof(alltext[0])/row;
+	for (int i = 0; i < row; i++)
+	{
+		sentence.push_back(Text(alltext[i]));
+	}
+	for (int j = 0; j < row; j++)
+{
+	   for (int k = 0; k < column; k++) {
+	   
+    if(sentence[j].row[k] == 1){
+       
+		SDL_Rect rect = {width+(k*size),height+(j*size),size,size};
+        SDL_RenderDrawRect(renderer, &rect);
+        SDL_RenderFillRect(renderer, &rect);
+    }
+}
+}
+}
+
+void menu ()
+{
+	
+SDL_SetRenderDrawColor(renderer,50,200,50,0);
+maketext(Title, snaketext,sizeof(Title)/sizeof(Title[0]), SizeTextTitle, HeightTextTitle, WidthTextTitle);
+SDL_SetRenderDrawColor(renderer,255,255,255,0);
+maketext(start, starttext,sizeof(start)/sizeof(start[0]), SizeText, HeightText1, WidthText);
+maketext(option, optiontext,sizeof(option)/sizeof(option[0]), SizeText, HeightText2, WidthText);
+maketext(leave, leavetext,sizeof(leave)/sizeof(leave[0]), SizeText, HeightText3, WidthText);
+maketext(arrow, arrowtext,sizeof(arrow)/sizeof(arrow[0]), SizeText, posarrow[head.movearrow], WidthArrow);
+indexmenu =head.update(pos[0], indexmenu);
+SDL_RenderPresent(renderer);
+//SDL_Delay(5);
+SDL_SetRenderDrawColor(renderer,0,0,0,255);
+SDL_RenderClear(renderer);
 }
